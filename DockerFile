@@ -3,6 +3,6 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 FROM openjdk:17.01-jdk-slim
-COPY --from=build /target/coffeebean-0.0.1-SNAPSHOT.jar  coffeebean.jar
+COPY --from=build /target/coffee-shop-telegram-bot-0.0.1-SNAPSHOT.jar  coffee-shop-telegram-bot.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","coffeebean.jar"]
+ENTRYPOINT ["java","-jar","coffee-shop-telegram-bot.jar"]
