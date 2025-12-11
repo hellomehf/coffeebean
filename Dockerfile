@@ -27,7 +27,7 @@ RUN chmod +x gradlew
 # `-x test` skips running tests during the Docker build, which speeds up the build process.
 # This assumes your main JAR will be named `Billing-0.0.1-SNAPSHOT.jar` based on your
 # build.gradle `group` and `version`.
-RUN ./gradlew bootJar -x test --stacktrace
+RUN ./gradlew bootJar -x test 
 
 # Stage 2: Create the final, lightweight runtime image
 # Uses a JRE image from Eclipse Temurin, which is much smaller than a JDK image.
@@ -39,7 +39,7 @@ WORKDIR /app
 # Copy the executable JAR from the builder stage to the final image.
 # The JAR is copied from `/app/build/libs/Billing-0.0.1-SNAPSHOT.jar` in the builder stage
 # and renamed to `app.jar` in the current stage for simplicity.
-COPY --from=builder /build/libs/coffee-shop-telegram-bot-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /app/build/libs/Billing-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the port on which your Spring Boot application will listen.
 # Based on your application.properties, this is 9090.
