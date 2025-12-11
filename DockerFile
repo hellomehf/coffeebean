@@ -1,8 +1,12 @@
-FROM maven:3.8.5-openjdk-17 AS build
-COPY . . 
+# Stage 1: Build the JAR artifact
+FROM maven:3.9.7-sapmachine-17 AS build
+WORKDIR /app
+COPY . .
 RUN mvn clean package -DskipTests
 
-FROM openjdk:17.01-jdk-slim
-COPY --from=build /target/coffee-shop-telegram-bot-0.0.1-SNAPSHOT.jar  coffee-shop-telegram-bot.jar
+# Stage 2: Create the final Docker image using a lean JDK image
+FROM openjdk:17-slim
+VOLUME /tmp
+COPY --from=build /app/target/coffee-shop-telegram-bot-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","coffee-shop-telegram-bot.jar"]
+ENTRYPOINT ["java","-jar","/app.jar"]
