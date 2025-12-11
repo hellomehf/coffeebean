@@ -27,7 +27,7 @@ RUN chmod +x gradlew
 # `-x test` skips running tests during the Docker build, which speeds up the build process.
 # This assumes your main JAR will be named `Billing-0.0.1-SNAPSHOT.jar` based on your
 # build.gradle `group` and `version`.
-RUN ./gradlew bootJar -x test
+RUN ./gradlew bootJar -x test --stacktrace
 
 # Stage 2: Create the final, lightweight runtime image
 # Uses a JRE image from Eclipse Temurin, which is much smaller than a JDK image.
